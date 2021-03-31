@@ -252,7 +252,7 @@ Server MUST ignore the header.
 ##### Example
 
 This example clarifies the response for an `OPTIONS` request. The version used
-in both, request and response, is `1.0.0` while the Server is also capable of
+in the response is `1.0.0` while the Server is also capable of
 handling `0.2.2` and `0.2.1`. Uploads with a total size of up to 1GB are
 allowed and the extensions for [Creation](#creation) and
 [Expiration](#expiration) are enabled.
@@ -329,6 +329,10 @@ MUST NOT contain spaces and commas and MUST NOT be empty. The key SHOULD be
 ASCII encoded and the value MUST be Base64 encoded. All keys MUST be unique.
 The value MAY be empty. In these cases, the space, which would normally separate
 the key and the value, MAY be left out.
+
+Since metadata can contain arbitrary binary values, Servers SHOULD
+carefully validate metadata values or sanitize them before using them
+as header values to avoid header smuggling.
 
 #### Requests
 
@@ -527,7 +531,6 @@ checksum algorithm and the Base64 encoded checksum separated by a space.
 ```
 OPTIONS /files HTTP/1.1
 Host: tus.example.org
-Tus-Resumable: 1.0.0
 ```
 
 **Response**:
